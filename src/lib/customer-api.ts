@@ -1,0 +1,8 @@
+export type MockCustomer = { id: number; name: string; email: string; phone: string; company: string; status: "Active" | "Inactive"; date: string; notes: string };
+const first = ["Ava", "Noah", "Mia", "Ethan", "Sofia", "Liam", "Olivia", "James", "Emma", "Lucas"];
+const last = ["Mitchell", "Williams", "Chen", "Carter", "Patel", "Rodriguez", "Parker", "Kim", "Morgan", "Singh"];
+const companies = ["Northstar Labs", "Atlas Works", "Brightline", "Orbit Labs", "Verdant", "Meridian", "Acme Corp", "Pioneer Systems"];
+const notes = ["Requested enterprise pricing and a follow-up demo.", "Discussed product expansion and next-quarter goals.", "Technical onboarding is complete; awaiting stakeholder review.", "Paused rollout until the next planning cycle."];
+const customers: MockCustomer[] = Array.from({ length: 350 }, (_, i) => ({ id: i + 1, name: `${first[i % first.length]} ${last[Math.floor(i / first.length) % last.length]}`, email: `${first[i % first.length].toLowerCase()}.${last[Math.floor(i / first.length) % last.length].toLowerCase()}${i + 1}@${companies[i % companies.length].toLowerCase().replace(/[^a-z]/g, "")}.com`, phone: `+1 ${200 + i % 700} 555 ${String(1000 + i).slice(-4)}`, company: companies[i % companies.length], status: i % 6 === 0 ? "Inactive" : "Active", date: `2026-${String(i % 8 + 1).padStart(2, "0")}-${String(i % 28 + 1).padStart(2, "0")}`, notes: notes[i % notes.length] }));
+/** Simulates GET /api/customers with network latency. */
+export async function getCustomers(): Promise<MockCustomer[]> { await new Promise(resolve => setTimeout(resolve, 300)); return customers.map(customer => ({ ...customer })); }
